@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center"
+    tools:context=".AjouterContact">
+
+    <ImageView
+        android:id="@+id/imageViewContactPhoto"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/baseline_account_circle_24"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:contentDescription="Contact Photo"
+        android:focusable="true" />
+
+    <EditText
+        android:id="@+id/editTextContactName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="sans-serif-light"
+        android:textSize="15dp"
+        android:hint="Nom et prénom"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/editTextContactEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="sans-serif-light"
+        android:textSize="15dp"
+        android:hint="Email"
+        android:inputType="textEmailAddress"/>
+
+    <!-- Add more EditText fields for other contact details as needed -->
+
+    <Button
+        android:id="@+id/buttonAddContact"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/mine"
+        android:fontFamily="sans-serif-light"
+        android:textSize="15dp"
+        android:text="Add Contact" />
+
+</LinearLayout>
