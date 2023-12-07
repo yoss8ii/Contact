@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -78,7 +79,7 @@ public class AjouterContact  extends AppCompatActivity {
     }
 
     private void pickPhoto() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent intent = new Intent(this, AvatarPicker.class);
         startActivityForResult(intent, PICK_PHOTO_REQUEST_CODE);
     }
 
@@ -86,17 +87,14 @@ public class AjouterContact  extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_PHOTO_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            Uri selectedImageUri = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-                imageViewContactPhoto.setImageBitmap(bitmap);
+            int selectedImageId = data.getIntExtra("selectedImageId", 0);
 
-                // Convert the image to a byte array and store it
-                selectedPhoto = ImageUtils.getBytes(bitmap);
+            // Set the selected image to the ImageView
+            imageViewContactPhoto.setImageResource(selectedImageId);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            // Optionally, you can convert the selected image to a byte array if needed
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), selectedImageId);
+            selectedPhoto = ImageUtils.getBytes(bitmap);
         }
     }
 }

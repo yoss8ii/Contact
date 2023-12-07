@@ -38,7 +38,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.insert("contacts", null, values);
     }
 
-    public Cursor getAllContacts() {
+    public void deleteContact(long contactId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("contacts", "id = ?", new String[]{String.valueOf(contactId)});
+        db.close();
+    }
+
+
+    public Cursor  getAllContacts() {
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columns = {"id AS _id", "name", "email", "photo"};
         return db.query("contacts", columns, null, null, null, null, null);

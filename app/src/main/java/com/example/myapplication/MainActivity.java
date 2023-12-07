@@ -1,9 +1,12 @@
 package com.example.myapplication;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.ListView;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -26,6 +29,25 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener((parent, view, position, id) -> {
             // Handle item click, e.g., open contact details activity
         });
+        listView.setOnItemLongClickListener((parent, view, position, id) -> {
+            // Retrieve the contact ID from the cursor
+            Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+            @SuppressLint("Range") long contactIdToDelete = cursor.getLong(cursor.getColumnIndex("_id"));
+
+            // Delete the contact
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("Confirmation")
+                    .setMessage("Vous étes sûre de supprimer ce contact ?")
+                    .setPositiveButton("Oui", (dialog, which) -> {
+                        // Delete the contact
+                        dbHelper.deleteContact(contactIdToDelete);
+                        // Update the cursor and refresh the ListView
+                        adapter.swapCursor(dbHelper.getAllContacts());
+                    })
+                    .setNegativeButton("Non", null)
+                    .show();
+            return true;
+        });
 
         fabAddContact.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, AjouterContact.class));
@@ -41,4 +63,5 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.contactListView);
         listView.setAdapter(adapter);
     }
+
 }
